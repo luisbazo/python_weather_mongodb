@@ -3,7 +3,7 @@ This is an example of python program that reads weather data on a range of time,
 
 The project is composed by 3 python scripts
 
-1. getCityWeather: Python script to get weather data from a city or list of cities. Data is stored in a mongoDB.
+1. getCityWeather: Python script to get weather data from a city or list of cities. Data is stored in a mongoDB. If a set of cities is provided, multi-threading is used to handle city weather collection simultaneously for every single city. 
   
   python getCityWeather.py -c "London,uk|Madrid,sp" -t 10 -o 1
   
