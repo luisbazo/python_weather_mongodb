@@ -12,6 +12,7 @@ The project is composed by 3 python scripts
                        -c the list of cities to get weather data
                        -t the amount of data to be collected (times)
                        -o how often data should be collected (offset)
+                       -a API key to get data from OpenWeather http://openweathermap.org/appid
   
 2. calculateCityTemperatureAverage: Python script to calculate given city temperature average from data stored in mongoDB.
  
