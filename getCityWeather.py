@@ -9,15 +9,15 @@ import threading
 import time
 
 def getWeatherDataForCity(city,times,offset):
-	print "Gathering weather data for city of ", city, " ", times, " times every ", offset, " seconds" 		
-	# Search for current weather in London (UK)		
-	for i in range(times):	
+	print "Gathering weather data for city of ", city, " ", times, " times every ", offset, " seconds"
+	# Search for current weather in London (UK)
+	for i in range(times):
 		observation = owm.weather_at_place(city)
 		w = observation.get_weather()
 
 		#Add city to JSON weather
-		jsonweather = w.to_JSON() 
-	
+		jsonweather = w.to_JSON()
+
 		jsonloads = json.loads(jsonweather)
 		jsonloads['city']=city
 
@@ -46,9 +46,9 @@ for opt, arg in opts:
 		api = arg
 
 if (times <= 0 or offset <= 0):
-	print 'time and offset should be greater than 0'	
-	print 'getCityWeather.py -c city1|city2 -t 100 -o 5'
-	print 'Example: getCityWeather.py -c "London,uk|Madrid,sp" -t 100 -o 5'
+	print 'time and offset should be greater than 0'
+	print 'getCityWeather.py -c city1|city2 -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx''
+	print 'Example: getCityWeather.py -c "London,uk|Madrid,sp" -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx''
 	sys.exit()
 
 owm = pyowm.OWM(api)
@@ -60,4 +60,3 @@ for city in array_cities:
     t = threading.Thread(target=getWeatherDataForCity, args=(city,times,offset,))
     threads.append(t)
     t.start()
-
