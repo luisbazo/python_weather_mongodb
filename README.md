@@ -7,7 +7,7 @@ The project is composed by 3 python scripts
 
   python getCityWeather.py -c "London,uk|Madrid,sp" -t 10 -o 1 -a xxxxxxxxxxxxx
 
-  It gets 3 parameters:
+  It gets 4 parameters:
 
                        -c the list of cities to get weather data
                        -t the amount of data to be collected (times)
