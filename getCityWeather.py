@@ -47,8 +47,8 @@ for opt, arg in opts:
 
 if (times <= 0 or offset <= 0):
 	print 'time and offset should be greater than 0'
-	print 'getCityWeather.py -c city1|city2 -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx''
-	print 'Example: getCityWeather.py -c "London,uk|Madrid,sp" -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx''
+	print 'getCityWeather.py -c city1|city2 -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+	print 'Example: getCityWeather.py -c "London,uk|Madrid,sp" -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 	sys.exit()
 
 owm = pyowm.OWM(api)
