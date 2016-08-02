@@ -1,3 +1,5 @@
+#by luis.bazo@gmail.com
+
 from pymongo import MongoClient
 from datetime import datetime
 
