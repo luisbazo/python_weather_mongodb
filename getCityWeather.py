@@ -7,11 +7,12 @@ from datetime import datetime
 import sys,getopt
 import threading
 import time
+from optparse import OptionParser
 
-def getWeatherDataForCity(city,times,offset):
-	print "Gathering weather data for city of ", city, " ", times, " times every ", offset, " seconds"
+def getWeatherDataForCity(city,offset):
+	print "Gathering weather data for city of ", city, " ", " every ", offset, " seconds"
 	# Search for current weather in London (UK)
-	for i in range(times):
+	while(True):
 		observation = owm.weather_at_place(city)
 		w = observation.get_weather()
 
@@ -21,42 +22,33 @@ def getWeatherDataForCity(city,times,offset):
 		jsonloads = json.loads(jsonweather)
 		jsonloads['city']=city
 
-
-		client.test.weather.insert_one(jsonloads)
+		if(saveData):
+			client.test.weather.insert_one(jsonloads)
 		time.sleep(offset)
 
-try:
-	opts, args = getopt.getopt(sys.argv[1:],"hc:t:o:a:",["cities=,times=,offset=,api="])
-except getopt.GetoptError:
-	print 'getCityWeather.py -c city1|city2 -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-	print 'Example: getCityWeather.py -c "London,uk|Madrid,sp" -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-	sys.exit(2)
-for opt, arg in opts:
-	if opt == '-h':
-		print 'getCityWeather.py -c city1|city2 -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-		print 'Example: getCityWeather.py -c "London,uk|Madrid,sp" -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-		sys.exit()
-	elif opt in ("-c", "--cities"):
-		cities = arg
-	elif opt in ("-t", "--times"):
-		times = int(arg)
-	elif opt in ("-o", "--offset"):
-		offset = int(arg)
-	elif opt in ("-a", "--api"):
-		api = arg
+parser = OptionParser()
+parser.add_option("-c", "--cities", dest="cities",help="Cities to get weather from: Example: London,uk", metavar="CITY,COUNTRY_CODE")
+parser.add_option("-o", "--offset", dest="offset", help="how fast in seconds weather has to be retrieved")
+parser.add_option("-a", "--api", dest="api",help="api key to get access to openweather")
+parser.add_option("-s", "--saveData",action="store_true",dest="saveData",default=False, help="Whether to store data on mongoDB or not")
+#parser.add_option("-w","--watsoniot",action="store_true",dest="sendToWatsonIoT",default=False, help="Whether to send data to WatsonIoT or not")
+#parser.add_option("-l","--watsoniotoptions",type="string", nargs=4, dest="woptions",help="Watson IoT Connection Options: org sense_type sense_id token",metavar="org sense_type sense_id token")
 
-if (times <= 0 or offset <= 0):
-	print 'time and offset should be greater than 0'
-	print 'getCityWeather.py -c city1|city2 -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-	print 'Example: getCityWeather.py -c "London,uk|Madrid,sp" -t 100 -o 5 -a xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-	sys.exit()
+(opts, args) = parser.parse_args()
+cities = opts.cities
+offset=float(opts.offset)
+api=opts.api
+saveData=opts.saveData
 
 owm = pyowm.OWM(api)
-client = MongoClient()
+print "Save data is ", saveData
+
+if(saveData):
+	client = MongoClient()
 
 array_cities = cities.split("|")
 threads = list()
 for city in array_cities:
-    t = threading.Thread(target=getWeatherDataForCity, args=(city,times,offset,))
+    t = threading.Thread(target=getWeatherDataForCity, args=(city,offset,))
     threads.append(t)
     t.start()

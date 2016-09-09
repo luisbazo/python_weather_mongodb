@@ -5,14 +5,18 @@ The project is composed by 3 python scripts
 
 1. getCityWeather: Python script to get weather data from a city or list of cities. Data is stored in a mongoDB. If a set of cities is provided, multi-threading is used to handle city weather collection simultaneously for every single city.
 
-  python getCityWeather.py -c "London,uk|Madrid,sp" -t 10 -o 1 -a xxxxxxxxxxxxx
+  python getCityWeather.py -c "London,uk|Madrid,sp" -o 1 -a xxxxxxxxxxxxx -s
 
-  It gets 4 parameters:
+  Usage: getCityWeather.py [options]
 
-                       -c the list of cities to get weather data
-                       -t the amount of data to be collected (times)
-                       -o how often data should be collected (offset)
-                       -a API key to get data from OpenWeather http://openweathermap.org/appid
+  Options:
+    -h, --help            show this help message and exit
+    -c CITY,COUNTRY_CODE, --cities=CITY,COUNTRY_CODE
+                        Cities to get weather from: Example: London,uk
+    -o OFFSET, --offset=OFFSET
+                        how fast in seconds weather has to be retrieved
+    -a API, --api=API     api key to get access to openweather
+    -s, --saveData        Whether to store data on mongoDB or not
 
 2. calculateCityTemperatureAverage: Python script to calculate given city temperature average from data stored in mongoDB.
 
