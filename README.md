@@ -11,10 +11,8 @@ The project is composed by 3 python scripts
 
   Options:
     -h, --help            show this help message and exit
-    -c CITY,COUNTRY_CODE, --cities=CITY,COUNTRY_CODE
-                        Cities to get weather from: Example: London,uk
-    -o OFFSET, --offset=OFFSET
-                        how fast in seconds weather has to be retrieved
+    -c CITY,COUNTRY_CODE, --cities=CITY,COUNTRY_CODE Cities to get weather from: Example: London,uk
+    -o OFFSET, --offset=OFFSET how fast in seconds weather has to be retrieved
     -a API, --api=API     api key to get access to openweather
     -s, --saveData        Whether to store data on mongoDB or not
 
